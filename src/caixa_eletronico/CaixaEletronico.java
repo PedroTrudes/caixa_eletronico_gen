@@ -4,15 +4,22 @@ import java.util.Scanner;
 
 import caixa_eletronico.banco_dados.BancoDeDados;
 import caixa_eletronico.conta.Conta;
+import caixa_eletronico.conta.ContaCorrente;
 
 public class CaixaEletronico {
 
 	private static Conta validarContaNoBancoDados(String numeroConta) {
-		while (!BancoDeDados.validarConta(numeroConta)) {
-			System.out.println("caixa_eletronico.Conta Invalida!");
+
+		try {
+			return BancoDeDados.getConta(numeroConta);
+
+		} catch (RuntimeException ex) {
+			System.out.println("Erro caixa_eletronico : " + ex.getMessage());
 			numeroConta = solicitaNumeroConta();
+			// recursão
+			return validarContaNoBancoDados(numeroConta);
 		}
-		return BancoDeDados.retornarConta(numeroConta);
+
 	}
 
 	public static void iniciar() {
@@ -27,6 +34,7 @@ public class CaixaEletronico {
 		Conta conta = validarContaNoBancoDados(numeroConta);
 		apresentarBoasVindas(conta);
 		menuDoCaixa(conta);
+
 	}
 
 	private static String solicitaNumeroConta() {
@@ -52,7 +60,7 @@ public class CaixaEletronico {
 		case 1 -> {
 			saque(conta);
 			menuDoCaixa(conta);
-			
+
 		}
 		case 2 -> {
 			saldo(conta);
@@ -70,31 +78,31 @@ public class CaixaEletronico {
 	}
 
 	private static void deposito(Conta conta) {
-		System.out.println("Selecione uma das opções abaixo");
+		System.out.println("===Selecione uma das opções abaixo para o depósito===");
 		System.out.println("(1) MESMA TITULARIDADE");
 		System.out.println("(2) OUTRA TITULARIDADE");
 		System.out.println("(0) VOLTAR");
-		
+
 		Scanner scan = new Scanner(System.in);
 		int operacao = scan.nextInt();
 		switch (operacao) {
 		case 1 -> {
-			System.out.println("Digite o valor do deposito: ");
+			System.out.println("===Digite o valor do deposito:=== ");
 			double valorDeposito = scan.nextDouble();
 			System.out.println("A conta que irá receber o Depósito: " + conta.getNumeroConta());
 			if (valorDeposito > 0) {
-				System.out.println("Depósito efetuado: " + valorDeposito);				
+				System.out.println("Depósito efetuado: " + valorDeposito);
 				double saldo = conta.getSaldo();
 				saldo += valorDeposito;
 				conta.setSaldo(saldo);
-				
+
 			} else {
 				System.out.println("Operação Inválida!");
 			}
-			
+
 		}
 		case 2 -> {
-			System.out.println("A conta que irá receber o Depósito: ");
+			System.out.println("===A conta que irá receber o Depósito: ===");
 			int contaTitularidadeDiferente = scan.nextInt();
 			System.out.println("Digite o valor do deposito: ");
 			double valorDeposito = scan.nextDouble();
@@ -102,40 +110,39 @@ public class CaixaEletronico {
 		}
 		case 0 -> menuDoCaixa(conta);
 		default -> throw new IllegalStateException("Valor inesperado: " + operacao);
-		};
-		
-		
-		
+		}
+		;
 
 	}
 
 	private static void saldo(Conta conta) {
-		System.out.println("Extrato selecionado");
-		System.out.println("Saldo da conta Corrente R$ " + conta.getSaldo());
-		System.out.println("Saldo da conta Poupanca R$ " + conta.getSaldo());
-
+		Scanner scanner = new Scanner(System.in);
+		System.out.println("===Extrato selecionado===");
+		if (conta instanceof ContaCorrente) {
+			System.out.println("Saldo da conta Corrente R$ " + conta.getSaldo());
+		} else {
+			System.out.println("Saldo da conta Poupanca R$ " + conta.getSaldo());
+		}
 	}
 
 	private static void saque(Conta conta) {
-		System.out.println("Saque selecionado, informe o valor desejado");
+		System.out.println("===Saque selecionado, informe o valor desejado===");
 		System.out.println("[1] R$20.00");
 		System.out.println("[2] R$50.00");
 		System.out.println("[3] R$100.00");
+
 		Scanner scanner = new Scanner(System.in);
 		int operacao = scanner.nextInt();
 		double valorSaque = switch (operacao) {
 		case 1 -> 20.00;
 		case 2 -> 50.00;
 		case 3 -> 100.00;
-		default -> throw new IllegalStateException("Valor inesperado: " + operacao);
-		};
-		if (valorSaque <= conta.getSaldo()) {
-			System.out.println("Saque Aprovado");
-			double saldo = conta.getSaldo();
-			saldo -= valorSaque;
-			conta.setSaldo(saldo);
-		} else {
-			System.out.println("Saque Recusado");
+		default -> {
+			throw new IllegalStateException("Valor inesperado: " + operacao);
 		}
+		};
+
+		conta.saque(valorSaque);
+
 	}
 }

@@ -4,51 +4,46 @@ public class Conta {
 
 	private String nomeCliente;
 	private String numeroConta;
-	private int tipo;
 	private String banco;
 	private double saldo;
 
-	public Conta(String nomeCliente, String banco, int tipo, String numeroConta) {
+	public Conta(String nomeCliente, String banco, String numeroConta) {
 		this.nomeCliente = nomeCliente;
-		this.tipo = tipo;
 		this.numeroConta = numeroConta;
 		this.banco = banco;
-		
+
 	}
 
-	public Conta(String nomeCliente, String banco, int tipo, String numeroConta, double saldo) {
+	public Conta(String nomeCliente, String banco, String numeroConta, double saldo) {
 		this.nomeCliente = nomeCliente;
-		this.tipo = tipo;
 		this.numeroConta = numeroConta;
 		this.saldo = saldo;
 		this.banco = banco;
 	}
 
-	public Conta() {
-	}
-	
-	public String getNomeCliente() {
-		return nomeCliente;
+	public void saque(double valorSaque) {
+		if (valorSaque <= saldo) {
+			System.out.println("===Saque Aprovado===");
+			saldo -= valorSaque;
+		} else {
+			System.out.println("===Saque Recusado===");
+		}
+
 	}
 
-	public void setNomeCliente(String nomeCliente) {
-		this.nomeCliente = nomeCliente;
+	public Conta() {
+	}
+
+	public String getNomeCliente() {
+		return nomeCliente;
 	}
 
 	public String getNumeroConta() {
 		return numeroConta;
 	}
 
-	public void setNumeroConta(String numeroConta) {
-		this.numeroConta = numeroConta;
-	}
-
 	public String getBanco() {
 		return banco;
-	}
-
-	public void setBanco(String banco) {
-		this.banco = banco;
 	}
 
 	public double getSaldo() {
@@ -59,14 +54,4 @@ public class Conta {
 		this.saldo = saldo;
 	}
 
-
-	public int getTipo() {
-		return tipo;
-	}
-
-	public void setTipo(int tipo) {
-		this.tipo = tipo;
-	}
-
-    
-} /*int tipo*/
+}
