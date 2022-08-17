@@ -21,26 +21,38 @@ public class ContaCorrente extends Conta {
 	@Override
 	public void saque(double valorSaque) {
 		double saldoTotal = saldoComLimite();
+		double saldo = getSaldo();
 
-		if (valorSaque <= getSaldo()) {
-			setSaldo(getSaldo() - valorSaque);
-			System.out.println("===Saque Aprovado===");
+		if (valorSaque <= saldo) {
+			setSaldo(saldo - valorSaque);
+			System.out.println(" Saque Aprovado !!!");
 
 		} else if (valorSaque <= saldoTotal) {
-			setSaldo(getSaldo() - valorSaque);
-			limite -= getSaldo();
-			System.out.println("===Saque Aprovado===");
+			setSaldo(saldo - valorSaque);
+			limite = limite - saldo;
+			System.out.println(" Saque Aprovado !!!");
 
 		} else {
-			System.out.println("===Saque Recusado===");
+			System.out.println(" Saque Recusado !!!");
+		}
+
+	}
+
+	@Override
+	public void efetuarDeposito(double valorDeposito) {
+		double saldo = getSaldo();
+		double valorUsadoDoLimite = saldo * -1;
+		if (saldo < 0 && valorDeposito >= valorUsadoDoLimite) {
+			setLimite(valorUsadoDoLimite);
+			setSaldo(valorDeposito - valorUsadoDoLimite);
+		} else {
+			super.efetuarDeposito(valorDeposito);
 		}
 
 	}
 
 	public double saldoComLimite() {
-		double saldoTotal = getSaldo() + limite;
-		System.out.println("Saldo + Limite : " + saldoTotal);
-		return saldoTotal;
+		return getSaldo() + limite;
 	}
 }
 

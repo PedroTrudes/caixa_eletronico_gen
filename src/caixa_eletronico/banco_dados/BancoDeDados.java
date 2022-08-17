@@ -19,7 +19,6 @@ public class BancoDeDados {
 			}
 		}
 		throw new RuntimeException("caixa_eletronico.Conta Não Encontrada!");
-//		return contas.stream().map(conta -> conta.getNumeroConta()).anyMatch(conta -> conta.equals(numeroConta));
 	}
 
 }

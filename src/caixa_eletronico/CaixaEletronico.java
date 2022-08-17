@@ -1,5 +1,6 @@
 package caixa_eletronico;
 
+import java.io.IOException;
 import java.util.Scanner;
 
 import caixa_eletronico.banco_dados.BancoDeDados;
@@ -23,13 +24,17 @@ public class CaixaEletronico {
 	}
 
 	public static void iniciar() {
-		System.out.println(
-				"   ______    ___     ____   _  __    ___            ______    __     ______  ______    ____    ____     _   __    ____   ______   ____             __   ___    __ __    __       _ \n"
-						+ "  / ____/   /   |   /  _/  | |/ /   /   |          / ____/   / /    / ____/ /_  __/   / __ \\  / __ \\   / | / /   /  _/  / ____/  / __ \\          _/_/  |__ \\  / // /   / /_     | |\n"
-						+ " / /       / /| |   / /    |   /   / /| |         / __/     / /    / __/     / /     / /_/ / / / / /  /  |/ /    / /   / /      / / / /         / /    __/ / / // /_  / __ \\    / /\n"
-						+ "/ /___    / ___ | _/ /    /   |   / ___ |        / /___    / /___ / /___    / /     / _, _/ / /_/ /  / /|  /   _/ /   / /___   / /_/ /         / /    / __/ /__  __/ / / / /   / / \n"
-						+ "\\____/   /_/  |_|/___/   /_/|_|  /_/  |_|       /_____/   /_____//_____/   /_/     /_/ |_|  \\____/  /_/ |_/   /___/   \\____/   \\____/         / /    /____/   /_/   /_/ /_/  _/_/  \n"
-						+ "                                                                                                                                              |_|                           /_/    ");
+		System.out.println("               ____            ____              _                      \r\n"
+				+ "              / ___| ___ _ __ | __ )  __ _ _ __ | | __                  \r\n"
+				+ "             | |  _ / _ | '_ \\|  _ \\ / _` | '_ \\| |/ /                  \r\n"
+				+ "             | |_| |  __| | | | |_) | (_| | | | |   <                   \r\n"
+				+ "              \\____|\\___|_| |_|____/ \\__,_|_| |_|_|\\_\\                  \r\n"
+				+ "   ____      _             _____ _      _                   _           \r\n"
+				+ "  / ___|__ _(___  ____ _  | ____| | ___| |_ _ __ ___  _ __ (_) ___ ___  \r\n"
+				+ " | |   / _` | \\ \\/ / _` | |  _| | |/ _ | __| '__/ _ \\| '_ \\| |/ __/ _ \\ \r\n"
+				+ " | |__| (_| | |>  | (_| | | |___| |  __| |_| | | (_) | | | | | (_| (_) |\r\n"
+				+ "  \\____\\__,_|_/_/\\_\\__,_| |_____|_|\\___|\\__|_|  \\___/|_| |_|_|\\___\\___/ \r\n"
+				+ "                                                                        ");
 		String numeroConta = CaixaEletronico.solicitaNumeroConta();
 		Conta conta = validarContaNoBancoDados(numeroConta);
 		apresentarBoasVindas(conta);
@@ -38,23 +43,34 @@ public class CaixaEletronico {
 	}
 
 	private static String solicitaNumeroConta() {
+
 		Scanner scanner = new Scanner(System.in);
-		System.out.println("Digite o numero da conta para iniciar !!! ");
+		System.out.println("  _____________________________________________________________________  \r\n"
+				+ " 								       							   \r\n"
+				+ "                 DIGITE O NUMERO DA CONTA PARA INICIAR                 \r\n"
+				+ "  _____________________________________________________________________ \n");
+
 		String numeroConta = scanner.next();
 		return numeroConta;
 	}
 
 	private static void apresentarBoasVindas(Conta conta) {
-		System.out.println("Olá, " + conta.getNomeCliente() + " " + "\nBanco: " + conta.getBanco() + " " + "\nconta :  "
-				+ conta.getNumeroConta() + " " + "\nSeja Bem vindo!!\n");
+		System.out.println("  _____________________________________________________________________  ");
+		System.out.println("                                                                         ");
+		System.out.println("  			          " + conta.getBanco() + " 							  ");
+		System.out.println("  _____________________________________________________________________  ");
+		System.out.println("                      Olá,  " + conta.getNomeCliente() + "  Seja Bem vindo(a)");
+		System.out.println("                            Conta : " + conta.getNumeroConta());
 	}
 
 	public static void menuDoCaixa(Conta conta) {
-		System.out.println("\nSelecione uma das opções abaixo");
-		System.out.println("(0) SAIR");
-		System.out.println("(1) SAQUE");
-		System.out.println("(2) SALDO");
-		System.out.println("(3) DEPOSITO");
+		System.out.println(" _____________________________________________________________________  ");
+
+		System.out.println("  Selecione uma das opções abaixo\n");
+		System.out.println("  (0) SAIR");
+		System.out.println("  (1) SAQUE");
+		System.out.println("  (2) SALDO");
+		System.out.println("  (3) DEPOSITO");
 		Scanner scanner = new Scanner(System.in);
 		switch (scanner.nextInt()) {
 		case 1 -> {
@@ -71,45 +87,42 @@ public class CaixaEletronico {
 			menuDoCaixa(conta);
 		}
 		case 0 -> {
-			System.out.println("Caixa Finalizado!");
+			System.out.println(" Caixa Finalizado!");
 			break;
 		}
 		}
 	}
 
 	private static void deposito(Conta conta) {
-		System.out.println("===Selecione uma das opções abaixo para o depósito===");
-		System.out.println("(1) MESMA TITULARIDADE");
-		System.out.println("(2) OUTRA TITULARIDADE");
-		System.out.println("(0) VOLTAR");
+		System.out.println(" _____________________________________________________________________  ");
+		System.out.println("  Selecione uma das opções abaixo para o depósito");
+		System.out.println(" (1) MESMA TITULARIDADE");
+		System.out.println(" (2) OUTRA TITULARIDADE");
+		System.out.println(" (0) VOLTAR");
 
 		Scanner scan = new Scanner(System.in);
 		int operacao = scan.nextInt();
 		switch (operacao) {
 		case 1 -> {
-			System.out.println("===Digite o valor do deposito:=== ");
+			System.out.println(" Digite o valor do deposito:  ");
 			double valorDeposito = scan.nextDouble();
-			System.out.println("A conta que irá receber o Depósito: " + conta.getNumeroConta());
+			System.out.println(" A conta que irá receber o Depósito: " + conta.getNumeroConta());
 			if (valorDeposito > 0) {
-				System.out.println("Depósito efetuado: " + valorDeposito);
-				double saldo = conta.getSaldo();
-				saldo += valorDeposito;
-				conta.setSaldo(saldo);
-
+				conta.efetuarDeposito(valorDeposito);
 			} else {
-				System.out.println("Operação Inválida!");
+				System.out.println(" Operação Inválida!");
 			}
 
 		}
 		case 2 -> {
-			System.out.println("===A conta que irá receber o Depósito: ===");
+			System.out.println(" A conta que irá receber o Depósito: ");
 			int contaTitularidadeDiferente = scan.nextInt();
-			System.out.println("Digite o valor do deposito: ");
+			System.out.println(" Digite o valor do deposito: ");
 			double valorDeposito = scan.nextDouble();
-			System.out.println("Deposito efetuado!");
+			System.out.println(" Deposito efetuado!");
 		}
 		case 0 -> menuDoCaixa(conta);
-		default -> throw new IllegalStateException("Valor inesperado: " + operacao);
+		default -> throw new IllegalStateException(" Valor inesperado: " + operacao);
 		}
 		;
 
@@ -117,28 +130,36 @@ public class CaixaEletronico {
 
 	private static void saldo(Conta conta) {
 		Scanner scanner = new Scanner(System.in);
-		System.out.println("===Extrato selecionado===");
+		System.out.println(" _____________________________________________________________________  ");
+		System.out.println(" Extrato selecionado\n");
 		if (conta instanceof ContaCorrente) {
-			System.out.println("Saldo da conta Corrente R$ " + conta.getSaldo());
+			System.out.println(" Saldo da conta Corrente R$ " + conta.getSaldo());
+			System.out.println(" Limite total  R$ " + ((ContaCorrente) conta).getLimite());
 		} else {
-			System.out.println("Saldo da conta Poupanca R$ " + conta.getSaldo());
+			System.out.println(" Saldo da conta Poupanca R$ " + conta.getSaldo());
 		}
 	}
 
 	private static void saque(Conta conta) {
-		System.out.println("===Saque selecionado, informe o valor desejado===");
-		System.out.println("[1] R$20.00");
-		System.out.println("[2] R$50.00");
-		System.out.println("[3] R$100.00");
+		System.out.println(" _____________________________________________________________________  ");
+		System.out.println(" Saque selecionado, informe o valor desejado\n");
+		System.out.println(" (1) R$20.00");
+		System.out.println(" (2) R$50.00");
+		System.out.println(" (3) R$100.00");
+		System.out.println(" (4) Digite o valor desejado");
 
 		Scanner scanner = new Scanner(System.in);
+
 		int operacao = scanner.nextInt();
+
 		double valorSaque = switch (operacao) {
+
 		case 1 -> 20.00;
 		case 2 -> 50.00;
 		case 3 -> 100.00;
+		case 4 -> scanner.nextDouble();
 		default -> {
-			throw new IllegalStateException("Valor inesperado: " + operacao);
+			throw new IllegalStateException(" Valor inesperado: " + operacao);
 		}
 		};
 

@@ -1,6 +1,6 @@
 package caixa_eletronico.conta;
 
-public class Conta {
+public abstract class Conta {
 
 	private String nomeCliente;
 	private String numeroConta;
@@ -23,12 +23,17 @@ public class Conta {
 
 	public void saque(double valorSaque) {
 		if (valorSaque <= saldo) {
-			System.out.println("===Saque Aprovado===");
+			System.out.println(" Saque Aprovado !!!");
 			saldo -= valorSaque;
 		} else {
-			System.out.println("===Saque Recusado===");
+			System.out.println(" Saque Recusado !!!");
 		}
 
+	}
+
+	public void efetuarDeposito(double valorDeposito) {
+		saldo += valorDeposito;
+		System.out.println(" Depósito efetuado: " + valorDeposito);
 	}
 
 	public Conta() {
