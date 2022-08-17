@@ -55,8 +55,3 @@ public class ContaCorrente extends Conta {
 		return getSaldo() + limite;
 	}
 }
-
-/*
- * herda todas informações da conta, so colocar aqui o especifico dessa
- * conta.ContaCorrente. ex limite.
- */

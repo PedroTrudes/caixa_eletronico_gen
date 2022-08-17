@@ -8,8 +8,4 @@ public class Main {
 		CaixaEletronico.iniciar();
 	}
 
-
 }
-
-
-/*collection .add metodo busca*/
