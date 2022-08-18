@@ -18,20 +18,26 @@ public class ContaCorrente extends Conta {
 		this.limite = limite;
 	}
 
+	public boolean validaSaqueComLimite(double valorSaque) {
+		return valorSaque > getSaldo() && valorSaque <= saldoComLimite();
+	}
+
+	public boolean validaSaqueComum(double valorSaque) {
+		return valorSaque <= getSaldo();
+	}
+
 	@Override
 	public void saque(double valorSaque) {
 		double saldoTotal = saldoComLimite();
 		double saldo = getSaldo();
 
-		if (valorSaque <= saldo) {
+		if (validaSaqueComum(valorSaque)) {
 			setSaldo(saldo - valorSaque);
 			System.out.println(" Saque Aprovado !!!");
-
-		} else if (valorSaque <= saldoTotal) {
+		} else if (validaSaqueComLimite(valorSaque)) {
 			setSaldo(saldo - valorSaque);
-			limite = limite - saldo;
+			limite = saldoTotal - valorSaque;
 			System.out.println(" Saque Aprovado !!!");
-
 		} else {
 			System.out.println(" Saque Recusado !!!");
 		}
